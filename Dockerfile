@@ -120,11 +120,14 @@ RUN \
 COPY docker-entrypoint.sh /
 COPY health_check.sh /
 
+ADD https://github.com/ufoscout/docker-compose-wait/releases/download/2.5.0/wait /wait
+RUN chmod +x /wait
+
 EXPOSE 9000
 USER ${GRAYLOG_USER}
 VOLUME ${GRAYLOG_HOME}/data
 ENTRYPOINT ["/docker-entrypoint.sh"]
-CMD ["graylog"]
+CMD ["/wait && graylog"]
 
 # add healthcheck
 HEALTHCHECK \
